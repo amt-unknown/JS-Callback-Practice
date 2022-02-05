@@ -6,30 +6,33 @@ function move(element) {
         element.style.bottom = bottom + 'px'
     }
 
+
     function moveWithArrowKeys(left, bottom, callback){
         let direction = null;
         let x = left;
         let y = bottom;
+
 
         element.style.left = x + 'px'
         element.style.bottom = y + 'px'
         
 
         function moveCharacter(){ 
-            if(direction === 'west'){
+            if(direction === 'west' && x >= 0){
                 x -= 1
             }
-            if(direction === 'north'){
+            if(direction === 'north' && y <= (innerHeight-75)){
                 y += 1
             }
-            if(direction === 'east'){
+            if(direction === 'east' && x <= (window.innerWidth-50)){
                 x += 1
             }
-            if(direction === 'south'){
+            if(direction === 'south' && y >= 105){
                 y -= 1
             }
             element.style.left = x + 'px'
             element.style.bottom = y + 'px'
+            element.style.zIndex = 1; 
         }
 
         setInterval(moveCharacter, 1)
@@ -49,12 +52,16 @@ function move(element) {
             if(e.key === 'ArrowDown'){
                 direction = 'south'
             }
-            callback(direction)
+            if(callback){
+                callback(direction)
+            }
         })
 
         document.addEventListener('keyup', function(e){
             direction = null
-            callback(direction)
+            if(callback){
+                callback(direction)
+            }
         })
     }
 
